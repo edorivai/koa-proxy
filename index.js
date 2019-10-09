@@ -16,6 +16,13 @@ module.exports = function(options) {
   return async function proxy(ctx, next) {
     var url = resolve(ctx.path, options);
 
+    var requestHeaders = options.getOverrideRequestHeaders
+      ? {
+        ...ctx.request.header,
+        ...await options.getOverrideRequestHeaders()
+      }
+      : ctx.request.header;
+
     if (typeof options.suppressRequestHeaders === 'object') {
       options.suppressRequestHeaders.forEach(function(h, i) {
         options.suppressRequestHeaders[i] = h.toLowerCase();
@@ -46,7 +53,7 @@ module.exports = function(options) {
     var opt = {
       jar: options.jar === true,
       url: url + (ctx.querystring ? '?' + ctx.querystring : ''),
-      headers: ctx.request.header,
+      headers: requestHeaders,      
       encoding: null,
       followRedirect: options.followRedirect === false ? false : true,
       method: ctx.method,
