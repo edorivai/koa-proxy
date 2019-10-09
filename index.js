@@ -53,7 +53,7 @@ module.exports = function(options) {
     var opt = {
       jar: options.jar === true,
       url: url + (ctx.querystring ? '?' + ctx.querystring : ''),
-      headers: requestHeaders,      
+      headers: requestHeaders,
       encoding: null,
       followRedirect: options.followRedirect === false ? false : true,
       method: ctx.method,
