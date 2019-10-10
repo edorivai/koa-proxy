@@ -87,6 +87,17 @@ app.use(proxy({
 }));
 ```
 
+Asynchronously add headers to your request or override existing ones.
+```js
+app.use(proxy({
+  getOverrideRequestHeaders: async function() { 
+      return {
+          "cow": await asyncMoo(),
+      }
+  }
+}));
+```
+
 You can also add new headers to your response or override existing ones
 ```js
 app.use(proxy({
